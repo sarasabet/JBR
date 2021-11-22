@@ -12,6 +12,7 @@ function App() {
   const [history, setHistory] = useState([]);
   const [index, setIndex] =useState(-1)
   const [dogs, setDigs] = useState([])
+  const [counter, setCounter] = useState(1)
 
   let draw_color = 'black'
   let start_background_color = 'white';
@@ -69,11 +70,12 @@ function App() {
     // nativeEvent.preventDefault();
 
     if (nativeEvent.type !== 'mouseout' ){
+      //setHistory(prev => [...prev, index])
       setHistory(prev => [...prev,contextRef.current.getImageData(0, 0, canvasRef.current.width, canvasRef.current.height) ])
       setIndex(prevIndex => prevIndex + 1)
-     
+      console.log('initial index', index, history.length, history )
     }
-    console.log('initial index', index, history.length, history )
+   
 
   }
 
@@ -108,16 +110,16 @@ function App() {
   }
 
   function undoLast() {
-    
-    if (index <= -1) {
-      return clearCanvas();          
-    }
-    console.log('1-undo: index, HL', index, history[index])
-  
-    contextRef.current.putImageData(history[index], 0,0);
-    setIndex(prevIndex => prevIndex - 1)
 
-    console.log('2-undo: index, HL', index, history.length)
+    if (index <= 0) {
+       contextRef.current.fillStyle = start_background_color;
+       contextRef.current.clearRect(0,0, canvasRef.current.width, canvasRef.current.height);  
+       setIndex(-1)
+       return      
+    }
+    
+    contextRef.current.putImageData(history[index - 1], 0,0);
+    setIndex(prevIndex => prevIndex - 1)
   
   }
 
@@ -130,16 +132,12 @@ function App() {
 
 function redo() {
 
-  if(index === history.length ){
+  if(index >= history.length - 1){
     return;
   }  
- if (index < history.length && index > -1){
 
-    contextRef.current.putImageData(history[index], 0,0);
-    setIndex(prevIndex => prevIndex + 1)
-
-  } 
-  console.log('Redo: index, HL', index, history.length)
+  contextRef.current.putImageData(history[index + 1], 0,0);
+  setIndex(prevIndex => prevIndex + 1)
  
 }
 
