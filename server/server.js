@@ -20,5 +20,6 @@ app.use(cors({
 app.use('/dogs', dogsController)
 // app.use('/', homePage)
 app.use('/api/users', userRouter(dbHelpers));
+app.use('/api/users/1', userRouter(dbHelpers));
 
 app.listen(PORT , console.log(`Server isslistening on port ${PORT}`))
