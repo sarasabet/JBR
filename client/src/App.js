@@ -21,7 +21,7 @@ function App() {
   useEffect(() => {
     const canvas = canvasRef.current;
     canvas.width = window.innerWidth - 550;
-    canvas.height = 400;
+    canvas.height = 550;
     const context = canvas.getContext("2d")
     start_background_color = 'white';
     context.fillStyle = start_background_color
@@ -142,6 +142,8 @@ function redo() {
 }
 
   return (
+  <div className="logo">
+    <img src="bob-ross.png" alt='bob-ross.jpeg' style={{height:'200px' , width: '400px'}} />
     <div className='fild'>
       <canvas id='canvas'
         onMouseDown={startDrawing}
@@ -164,6 +166,7 @@ function redo() {
         <button onClick={redo} type="button" className="button">Redo</button>
         <a href="#" onClick={SaveImage} ref={imageRef} download="imge.png">  Save Image</a>
       </div>
+    </div>
     </div>
   );
 }
