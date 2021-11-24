@@ -13,7 +13,8 @@ This is a front-end project, which clones simple paint application.
 
 # Final product
 
-!["home page-1"]()
+
+!["home page-1"](https://github.com/sarasabet/JBR/blob/master/client/public/doc/landingPage.png)
 
 # Setup
 Install dependencies with npm install in the client 
