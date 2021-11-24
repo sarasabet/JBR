@@ -18,9 +18,28 @@ button {
   margin-top: 3em;
 }
 .color-picker {
-  width: 3em;
-  height: 1em;
+  width: 1.5em;
+  height: 1.5em;
   display: inline-block;
+  margin-right: 2px;
   cursor: pointer;
-  border-radius: 2em;
+
+  /* border-radius: 50%; */
+}
+
+.canvas-pallete {
+  display: flex;
+  flex-direction: row;
+}
+
+.brush {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 0.5em;
+  cursor: pointer;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  border: 2px solid rgb(92, 91, 91);
 }
