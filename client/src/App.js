@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import './App.css';
-import axios from 'axios'
-
 
 function App() {
 
@@ -12,9 +10,6 @@ function App() {
   const [isDrawing, setIsDrawing] = useState(false)
   const [history, setHistory] = useState([]);
   const [index, setIndex] =useState(-1)
-  const [dogs, setDigs] = useState([])
-  const [counter, setCounter] = useState(1)
-
   let draw_color = 'black'
   let start_background_color = 'white';
 
@@ -26,40 +21,18 @@ function App() {
     const context = canvas.getContext("2d")
     start_background_color = 'white';
     context.fillStyle = start_background_color
-    // context.fillRect = (0,0, canvas.width, canvas.height)
     context.lineCap = 'round'
     context.lineJoin = 'round'
     context.strokeStyle = 'black'
     context.lineWidth = 5
     contextRef.current = context;
-    // const image = new Image()
-    // image.src = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/183091/harper-coloring-book003.svg'
-    // image.onload = function () {
-    //     context.drawImage(
-    //         image,
-           
-    //         0,
-    //         0
-
-    //     )
-    // }
-   
   }, [])
-  useEffect(() => {
-    // demo purposes hardcoded
-    axios.get('http://localhost:3001/dogs')
-    .then(res => {
-      console.log(res);
-    })
-  }, [])
-  
 
   const startDrawing = ({nativeEvent}) => {
     const {offsetX, offsetY} = nativeEvent;
     contextRef.current.beginPath()
     contextRef.current.moveTo(offsetX, offsetY)
     setIsDrawing(true)
-    // nativeEvent.preventDefault();
   }
 
   const finishDrawing = (nativeEvent) => {
@@ -68,10 +41,9 @@ function App() {
       contextRef.current.closePath()
       setIsDrawing(false)
     }   
-    // nativeEvent.preventDefault();
 
     if (nativeEvent.type !== 'mouseout' ){
-      //setHistory(prev => [...prev, index])
+
       setHistory(prev => [...prev,contextRef.current.getImageData(0, 0, canvasRef.current.width, canvasRef.current.height) ])
       setIndex(prevIndex => prevIndex + 1)
       console.log('initial index', index, history.length, history )
@@ -87,8 +59,6 @@ function App() {
     const {offsetX, offsetY} = nativeEvent;
     contextRef.current.lineTo(offsetX, offsetY)
     contextRef.current.stroke()
-    // nativeEvent.preventDefault();
-
   }
   function componentToHex(c) {
     var hex = c.toString(16);
@@ -102,14 +72,11 @@ function App() {
   function change_color ({nativeEvent}) {
     contextRef.current.strokeStyle = nativeEvent.target.style.background;
     draw_color = nativeEvent.target.style.background;
-    console.log('val', nativeEvent.target.style.background)
     const back_color =  nativeEvent.target.style.background;
     const color = back_color.substr(4,back_color.length-5);
     const rgb = color.split(',')
     const rgbObj = rgbToHex(Number(rgb[0]), Number(rgb[1]), Number(rgb[2]))
-    console.log('color', rgbObj)
     colorPickerRef.current.value = rgbObj;
-    console.log('val', colorPickerRef.current.value)
   }
 
   const pickColor = ({nativeEvent}) => {
@@ -132,7 +99,6 @@ function App() {
     const imageFile = imageRef.current;
     imageFile.setAttribute('download', 'imge.png');
     imageFile.setAttribute('href', canvasRef.current.toDataURL())
-
   }
 
   function undoLast() {
@@ -174,10 +140,14 @@ function redo() {
         <img src="pallete.jpeg" style={{height:'100px' , width: '100px', color: 'red'}}/>
       </div>
     <div className='fild'>
-      <div className='nav' style={{height: '50px', backgroundColor: 'white', marginBottom: '5px'}}>
-        <img src='redo3.png' style={{height: '40px', width: '40px', padding: '5px'}}></img>
-        <img src='redo3.png' style={{height: '40px', width: '40px', padding: '5px', transform: 'rotateY(180deg)' }}></img>
-        <img src='save2.png' style={{height: '40px', width: '40px', padding: '5px'}}></img>
+      <div className='nav' style={{height: '50px', backgroundColor: 'whitesmoke', marginBottom: '5px'}}>
+        <img src='redo3.png' onClick={undoLast} style={{height: '40px', width: '40px', padding: '5px', marginLeft: '1%'}}></img>
+        <img src='redo3.png' onClick={redo} style={{height: '40px', width: '40px', padding: '5px', transform: 'rotateY(180deg)' }}></img>
+        <img src='clear.png' onClick={clearCanvas} style={{height: '40px', width: '40px', padding: '5px'}}></img>
+        <a href="#" onClick={SaveImage} ref={imageRef} download="imge.png">  
+          <img src='save2.png' onClick={SaveImage} ref={imageRef} download="imge.png" style={{height: '40px', width: '40px', padding: '5px', marginLeft: '75%'}}></img>
+        </a>
+        
       </div>
         <div className='canvas-pallete'>
           <div className='tools'>
@@ -239,12 +209,6 @@ function redo() {
             onMouseMove={draw}
             ref={canvasRef}
           />
-        </div>
-        <div>
-          <button onClick={undoLast} type="button" className="button">Undo</button>
-          <button onClick={clearCanvas} type="button" className="button">Clear</button>
-          <button onClick={redo} type="button" className="button">Redo</button>
-          <a href="#" onClick={SaveImage} ref={imageRef} download="imge.png">  Save Image</a>
         </div>
       </div>
     </div>
