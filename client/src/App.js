@@ -120,7 +120,14 @@ function App() {
     const size = Number(value.slice(0,value.length-2))
     contextRef.current.lineWidth = size;
   }
-
+  const pickEraserSize = ({nativeEvent}) => {
+    const value = nativeEvent.target.style.height;
+    const size = Number(value.slice(0,value.length-2))
+    contextRef.current.lineWidth = size;
+    contextRef.current.lineCap = 'round'
+    contextRef.current.lineJoin = 'round'
+    contextRef.current.strokeStyle = 'white'
+  }
   function SaveImage () {
     const imageFile = imageRef.current;
     imageFile.setAttribute('download', 'imge.png');
@@ -161,11 +168,17 @@ function redo() {
 }
 
   return (
-    <div className="logo">
-    
-    <img src="bob-ross.png" alt='bob-ross.jpeg' style={{height:'200px' , width: '400px'}} />
-    <img src="pallete.jpeg" style={{height:'100px' , width: '100px'}}/>
+    <div className='main-container'>
+      <div className="logo">  
+        <img src="bob-ross.png" alt='bob-ross.jpeg' style={{height:'200px' , width: '400px'}} />
+        <img src="pallete.jpeg" style={{height:'100px' , width: '100px', color: 'red'}}/>
+      </div>
     <div className='fild'>
+      <div className='nav' style={{height: '50px', backgroundColor: 'white', marginBottom: '5px'}}>
+        <img src='redo3.png' style={{height: '40px', width: '40px', padding: '5px'}}></img>
+        <img src='redo3.png' style={{height: '40px', width: '40px', padding: '5px', transform: 'rotateY(180deg)' }}></img>
+        <img src='save2.png' style={{height: '40px', width: '40px', padding: '5px'}}></img>
+      </div>
         <div className='canvas-pallete'>
           <div className='tools'>
             <div>
@@ -173,42 +186,50 @@ function redo() {
               <div onClick={change_color} className='color-picker' style={{background: '#B0C4DE'}}></div>
             </div>
             <div>
-              <div onClick={change_color} className='color-picker' style={{background: 'cyan'}}></div>
+              <div onClick={change_color} className='color-picker' style={{background: '#00FFFF	'}}></div>
               <div onClick={change_color} className='color-picker' style={{background: 'rgb(8, 158, 28)'}}></div>   
             </div>
             <div>
-              <div onClick={change_color} className='color-picker' style={{background: 'purple'}}></div>
-              <div onClick={change_color} className='color-picker' style={{background: 'pink'}}></div>
+              <div onClick={change_color} className='color-picker' style={{background: '#800080'}}></div>
+              <div onClick={change_color} className='color-picker' style={{background: '#FFC0CB'}}></div>
             </div>
             <div>
-              <div onClick={change_color} className='color-picker' style={{background: 'brown'}}></div>
-              <div onClick={change_color} className='color-picker' style={{background: 'deepPink'}}></div>     
+              <div onClick={change_color} className='color-picker' style={{background: '#00FF00'}}></div>
+              <div onClick={change_color} className='color-picker' style={{background: '#FF1493'}}></div>     
             </div>
             <div>
               <div>
-                <div onClick={change_color} className='color-picker' style={{background: 'darkGrey'}}></div>
-                <div onClick={change_color} className='color-picker' style={{background: 'orange'}}></div>
+                <div onClick={change_color} className='color-picker' style={{background: '#FFFF00'}}></div>
+                <div onClick={change_color} className='color-picker' style={{background: '#FF4500'}}></div>
               </div>
               <div>
                 <div onClick={change_color} className='color-picker' style={{background: 'rgb(43, 31, 219)'}}></div>
-                <div onClick={change_color} className='color-picker' style={{background: 'lightGreen'}}></div>
+                <div onClick={change_color} className='color-picker' style={{background: '#90EE90'}}></div>
               </div>
               <div>
-                <div onClick={change_color} className='color-picker' style={{background: 'red'}}></div>
-                <div onClick={change_color} className='color-picker' style={{background: 'magenta'}}></div>
+                <div onClick={change_color} className='color-picker' style={{background: '#FF7F50'}}></div>
+                <div onClick={change_color} className='color-picker' style={{background: '#FF00FF'}}></div>
               </div>
               <div>
-                <div onClick={change_color} className='color-picker' style={{background: 'beige'}}></div>
-                <div onClick={change_color} className='color-picker' style={{background: 'indigo'}}></div>   
+                <div onClick={change_color} className='color-picker' style={{background: '#FFFACD'}}></div>
+                <div onClick={change_color} className='color-picker' style={{background: '#9932CC'}}></div>   
               </div>
             </div>
             <input onInput={pickColor} type="color" className='color-picker' value="#ff00ff"  ref={colorPickerRef} style={{height: '50px', width:'50px'}}/>
-            <div className="brush">
+            
+            <div className="brush">   
+              <img src='brush2.png' style={{height: '50px', width: '50px', marginBottom: '5px'}}/>      
               <div onClick={pickBrushSize} style={{backgroundColor: 'white', height:'20px', width: '40px', marginBottom: '.5em'}}></div>
               <div onClick={pickBrushSize} style={{backgroundColor: 'white', height:'15px', width: '40px', marginBottom: '.5em'}}></div>
               <div onClick={pickBrushSize} style={{backgroundColor:'white', height:'10px', width: '40px',  marginBottom: '.5em'}}></div>
               <div onClick={pickBrushSize} style={{backgroundColor:'white', height:'5px', width: '40px',  marginBottom: '.5em'}}></div>
               <div onClick={pickBrushSize} style={{backgroundColor:'white', height:'3px', width: '40px'}}></div>
+            </div>
+            <div className="brush">   
+            <img src='eraser5.png' style={{height: '40px', width: '40px', marginBottom: '10px', paddingTop: '5px'}}/>      
+              <div onClick={pickEraserSize} style={{backgroundColor: 'white', height:'20px', width: '30px', marginBottom: '.5em'}}></div>
+              <div onClick={pickEraserSize} style={{backgroundColor: 'white', height:'15px', width: '30px', marginBottom: '.5em'}}></div>
+              <div onClick={pickEraserSize} style={{backgroundColor:'white', height:'10px', width: '30px',  marginBottom: '.5em'}}></div>
             </div>
           </div>
           <canvas id='canvas'
@@ -218,10 +239,6 @@ function redo() {
             onMouseMove={draw}
             ref={canvasRef}
           />
-        </div>
-        <div>
-
-          <input onInput={pickBrushSize} type="range" min="1" max='100' className='pen_range' />    
         </div>
         <div>
           <button onClick={undoLast} type="button" className="button">Undo</button>
